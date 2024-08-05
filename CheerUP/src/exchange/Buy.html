@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>buy.html</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
       @font-face {
         font-family: "Pretendard-Regular";
@@ -25,7 +26,7 @@
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 500px;
+        width: 480px;
       }
       .tabs {
         display: flex;
@@ -41,6 +42,7 @@
         width: 1.2cm;
         height: 1cm;
         font-size: 15px;
+        cursor: pointer;
       }
       .tabs-sell {
         color: #acacac;
@@ -51,6 +53,7 @@
         height: 1cm;
         font-size: 15px;
         margin-right:6px;
+        cursor: pointer;
       }
       .help-button {
         border: none;
@@ -92,6 +95,11 @@
         border-radius: 5px;
         background-color: #F2F2F7;
         height: 0.4cm;
+        text-align: right;
+      }
+      .form-group input:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #c84931;
       }
       .percentage-buttons {
         display: flex;
@@ -149,13 +157,49 @@
         margin-left: 10px;
       }
     </style>
+    <script>
+        
+        $(document).ready(function() {
+            $('.tabs-buy').click(function() {
+                console.log('매수 버튼이 눌렸습니다.');
+            });
+
+            $('.tabs-sell').click(function() {
+                console.log('매도 버튼이 눌렸습니다.');
+            });
+
+            $('.help-button').click(function() {
+                console.log('물음표 버튼이 눌렸습니다.');
+            });
+
+            $('.reset-button').click(function(){
+                console.log('초기화');
+                $("form")[0].reset();
+            });
+        
+            $('.buy-button').click(function(){
+                event.preventDefault(); 
+                console.log('데이터전송');
+                
+                var orderQuantity = $('#order-quantity').val();
+                var orderAmount = $('#order-amount').val();
+                
+                var buyform = JSON.parse(localStorage.getItem('buyform')) || [];
+
+                buyform.push({ '주문수량': orderQuantity, '주문금액': orderAmount });
+
+                localStorage.setItem('buyform', JSON.stringify(buyform));
+                $("form")[0].reset();
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="tabs">
-            <button class="tabs-buy">매수</button>
-            <button class="tabs-sell">매도</button>
-            <button class="help-button">?</button>
+            <button class="tabs-buy" type="button">매수</button>
+            <button class="tabs-sell"type="button">매도</button>
+            <button class="help-button"type="button">?</button>
         </div>
         <form class="order-form">
             <div class="form-group">
