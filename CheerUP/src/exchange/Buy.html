@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>buy.html</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
       @font-face {
         font-family: "Pretendard-Regular";
-        src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+        src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+          format("woff");
         font-weight: 400;
         font-style: normal;
       }
-      body, html {
+      body,
+      html {
         margin: 0;
         padding: 0;
         font-family: "Pretendard-Regular";
@@ -38,12 +40,23 @@
         color: #000;
         border: none;
         font-weight: bold;
-        border-bottom: 2px solid black;
         width: 1.2cm;
         height: 1cm;
         font-size: 15px;
         cursor: pointer;
+        position: relative; /* ::after 가상 요소의 위치를 기준으로 설정 */
       }
+
+      .tabs-buy::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 50%; /* 밑줄 길이 조정 */
+        transform: translateX(-50%);
+        border-bottom: 2px solid black;
+      }
+
       .tabs-sell {
         color: #acacac;
         background-color: white;
@@ -52,7 +65,7 @@
         width: 1.2cm;
         height: 1cm;
         font-size: 15px;
-        margin-right:6px;
+        margin-right: 6px;
         cursor: pointer;
       }
       .help-button {
@@ -93,7 +106,7 @@
         padding-left: 15px; /* 왼쪽으로 더 늘리기 위해 패딩 추가 */
         border: none;
         border-radius: 5px;
-        background-color: #F2F2F7;
+        background-color: #f2f2f7;
         height: 0.4cm;
         text-align: right;
       }
@@ -109,9 +122,9 @@
       }
       .button {
         position: relative;
-        background-color: #F2F2F7;
+        background-color: #f2f2f7;
         border: none;
-        color: #6C707B;
+        color: #6c707b;
         padding: 5px 12px;
         text-align: center;
         text-decoration: none;
@@ -135,7 +148,8 @@
         justify-content: space-between;
         margin-top: 15px;
       }
-      .reset-button, .buy-button {
+      .reset-button,
+      .buy-button {
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -158,69 +172,68 @@
       }
     </style>
     <script>
-        
-        $(document).ready(function() {
-            $('.tabs-buy').click(function() {
-                console.log('매수 버튼이 눌렸습니다.');
-            });
-
-            $('.tabs-sell').click(function() {
-                console.log('매도 버튼이 눌렸습니다.');
-            });
-
-            $('.help-button').click(function() {
-                console.log('물음표 버튼이 눌렸습니다.');
-            });
-
-            $('.reset-button').click(function(){
-                console.log('초기화');
-                $("form")[0].reset();
-            });
-        
-            $('.buy-button').click(function(){
-                event.preventDefault(); 
-                console.log('데이터전송');
-                
-                var orderQuantity = $('#order-quantity').val();
-                var orderAmount = $('#order-amount').val();
-                
-                var buyform = JSON.parse(localStorage.getItem('buyform')) || [];
-
-                buyform.push({ '주문수량': orderQuantity, '주문금액': orderAmount });
-
-                localStorage.setItem('buyform', JSON.stringify(buyform));
-                $("form")[0].reset();
-            });
+      $(document).ready(function () {
+        $(".tabs-buy").click(function () {
+          console.log("매수 버튼이 눌렸습니다.");
         });
+
+        $(".tabs-sell").click(function () {
+          console.log("매도 버튼이 눌렸습니다.");
+        });
+
+        $(".help-button").click(function () {
+          console.log("물음표 버튼이 눌렸습니다.");
+        });
+
+        $(".reset-button").click(function () {
+          console.log("초기화");
+          $("form")[0].reset();
+        });
+
+        $(".buy-button").click(function () {
+          event.preventDefault();
+          console.log("데이터전송");
+
+          var orderQuantity = $("#order-quantity").val();
+          var orderAmount = $("#order-amount").val();
+
+          var buyform = JSON.parse(localStorage.getItem("buyform")) || [];
+
+          buyform.push({ 주문수량: orderQuantity, 주문금액: orderAmount });
+
+          localStorage.setItem("buyform", JSON.stringify(buyform));
+          $("form")[0].reset();
+        });
+      });
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="tabs">
-            <button class="tabs-buy" type="button">매수</button>
-            <button class="tabs-sell"type="button">매도</button>
-            <button class="help-button"type="button">?</button>
+      <div class="tabs">
+        <button class="tabs-buy" type="button">매수</button>
+        <button class="tabs-sell" type="button">매도</button>
+        <button class="help-button" type="button">?</button>
+      </div>
+      <form class="order-form">
+        <div class="form-group">
+          <label for="order-quantity">주문 수량</label>
+          <input type="text" id="order-quantity" />
         </div>
-        <form class="order-form">
-            <div class="form-group">
-                <label for="order-quantity">주문 수량</label>
-                <input type="text" id="order-quantity">
-            </div>
-            <div class="percentage-buttons">
-                <button class="button">10%</button>
-                <button class="button">25%</button>
-                <button class="button">50%</button>
-                <button class="button">100%</button>
-            </div>
-            <div class="form-group">
-                <label for="order-amount">주문 금액</label>
-                <input type="text" id="order-amount">
-            </div>
-            <div class="action-buttons">
-                <button type="reset" class="reset-button">초기화</button>
-                <button type="submit" class="buy-button">매수</button>
-            </div>
-        </form>
+        <div class="percentage-buttons">
+          <button class="button">10%</button>
+          <button class="button">25%</button>
+          <button class="button">50%</button>
+          <button class="button">100%</button>
+        </div>
+        <div class="form-group">
+          <label for="order-amount">주문 금액</label>
+          <input type="text" id="order-amount" />
+        </div>
+        <div class="action-buttons">
+          <button type="reset" class="reset-button">초기화</button>
+          <button type="submit" class="buy-button">매수</button>
+        </div>
+      </form>
     </div>
-</body>
+  </body>
 </html>
