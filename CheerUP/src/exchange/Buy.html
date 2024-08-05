@@ -46,17 +46,15 @@
         cursor: pointer;
         position: relative;
       }
-
       .tabs-buy::after {
         content: "";
         position: absolute;
         bottom: 0;
         left: 50%;
-        width: 50%; 
+        width: 50%;
         transform: translateX(-50%);
         border-bottom: 2px solid black;
       }
-
       .tabs-sell {
         color: #acacac;
         background-color: white;
@@ -76,8 +74,8 @@
         text-align: center;
         width: 0.35cm;
         height: 0.35cm;
-        font-size: 0.3cm; 
-        line-height: 0.35cm; 
+        font-size: 0.3cm;
+        line-height: 0.35cm;
         cursor: pointer;
         padding-left: 0.1cm;
       }
@@ -92,9 +90,9 @@
       }
       .form-group label {
         margin-right: 5px;
-        flex: 0 0 80px; 
+        flex: 0 0 80px;
         display: flex;
-        align-items: center; 
+        align-items: center;
         height: 100%;
         font-weight: 500;
         font-size: 15px;
@@ -103,7 +101,7 @@
       .form-group input {
         flex: 1;
         padding: 10px;
-        padding-left: 15px; 
+        padding-left: 15px;
         border: none;
         border-radius: 5px;
         background-color: #f2f2f7;
@@ -116,7 +114,7 @@
       }
       .percentage-buttons {
         display: flex;
-        justify-content: flex-end; 
+        justify-content: flex-end;
         margin-bottom: 15px;
         height: 0.7cm;
       }
@@ -190,6 +188,58 @@
     </style>
     <script>
       $(document).ready(function () {
+        if (localStorage.getItem("Asset") === null) {
+          localStorage.setItem("Asset", 4000000);
+          localStorage.setItem("Price", 40000);
+          console.log("자산이 저장되었습니다.");
+        } else {
+          console.log("자산이 이미 저장되어 있습니다.");
+        }
+
+        $("#percent10").click(function () {
+          var quantity =(localStorage.getItem("Asset") * 0.1) /localStorage.getItem("Price");
+          var amount = quantity * localStorage.getItem("Price");
+
+          quantity = Math.floor(quantity);
+          amount = Math.floor(amount);
+
+          $("#order-quantity").val(quantity);
+          $("#order-amount").val(amount);
+        });
+
+        $("#percent25").click(function () {
+          var quantity =(localStorage.getItem("Asset") * 0.25) /localStorage.getItem("Price");
+          var amount = quantity * localStorage.getItem("Price");
+
+          quantity = Math.floor(quantity);
+          amount = Math.floor(amount);
+
+          $("#order-quantity").val(quantity);
+          $("#order-amount").val(amount);
+        });
+
+        $("#percent50").click(function () {
+          var quantity =(localStorage.getItem("Asset") * 0.5) /localStorage.getItem("Price");
+          var amount = quantity * localStorage.getItem("Price");
+
+          quantity = Math.floor(quantity);
+          amount = Math.floor(amount);
+
+          $("#order-quantity").val(quantity);
+          $("#order-amount").val(amount);
+        });
+
+        $("#percent100").click(function () {
+          var quantity = localStorage.getItem("Asset") /localStorage.getItem("Price");
+          var amount = quantity * localStorage.getItem("Price");
+
+          quantity = Math.floor(quantity);
+          amount = Math.floor(amount);
+
+          $("#order-quantity").val(quantity);
+          $("#order-amount").val(amount);
+        });
+
         $(".tabs-buy").click(function () {
           console.log("매수 버튼이 눌렸습니다.");
         });
@@ -201,6 +251,8 @@
         $(".help-button").click(function () {
           console.log("물음표 버튼이 눌렸습니다.");
         });
+
+        $("percentage-buttons");
 
         $(".reset-button").click(function () {
           console.log("초기화");
@@ -221,8 +273,9 @@
           localStorage.setItem("buyform", JSON.stringify(buyform));
           $("form")[0].reset();
         });
+
         $(".percentage-buttons .button").click(function () {
-            event.preventDefault(); 
+          event.preventDefault();
           $(".percentage-buttons .button").removeClass("active");
           $(this).addClass("active");
         });
@@ -242,10 +295,10 @@
           <input type="text" id="order-quantity" />
         </div>
         <div class="percentage-buttons">
-          <button class="button">10%</button>
-          <button class="button">25%</button>
-          <button class="button">50%</button>
-          <button class="button">100%</button>
+          <button class="button" id="percent10">10%</button>
+          <button class="button" id="percent25">25%</button>
+          <button class="button" id="percent50">50%</button>
+          <button class="button" id="percent100">100%</button>
         </div>
         <div class="form-group">
           <label for="order-amount">주문 금액</label>
